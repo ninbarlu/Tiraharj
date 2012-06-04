@@ -16,6 +16,7 @@ public class Sanaindeksoija {
     private static Scanner lukija = new Scanner(System.in);
     
     private static Hakupuu trie;
+    private static String[] tdstot;
     
     private static int mones;
     private static int riveja;
@@ -29,9 +30,12 @@ public class Sanaindeksoija {
     private static void tulostaTilasto() {
         System.out.println("Tilasto:");
         System.out.println("  - sisäänluettuja tiedostoja "+mones+" kpl");
-        System.out.println("  - sisäänluettuja rivejä     "+riveja+" kpl, k.a per tiedosto "+(1.0*((100*riveja)/mones)/100));
-        System.out.println("  - tehtyjä hakuja            "+hakuja+" kpl");
-        System.out.println("  - saatuja osumia yhteensä   "+osumia+" kpl, k.a per haku     "+(1.0*((100*osumia)/hakuja)/100));
+        if (mones > 0) {
+            System.out.println("  - sisäänluettuja rivejä     "+riveja+" kpl, k.a per tiedosto "+(1.0*((100*riveja)/mones)/100));
+            System.out.println("  - tehtyjä hakuja            "+hakuja+" kpl");
+        }
+        if (hakuja > 0)
+            System.out.println("  - saatuja osumia yhteensä   "+osumia+" kpl, k.a per haku     "+(1.0*((100*osumia)/hakuja)/100));
     }
     
 /**
@@ -47,7 +51,7 @@ public class Sanaindeksoija {
         if (!tdstokahva.exists()) {
             return false;
         }
-        riveja = riveja + trie.lueTdsto(tdstokahva);
+        riveja = riveja + trie.lueTdsto(tdstokahva, mones-1);
         return true;
     }
 
@@ -63,6 +67,8 @@ public class Sanaindeksoija {
         while (true) {
             if (lukija.hasNextInt()) {
                 tiedLkm = lukija.nextInt();
+                lukija.nextLine();
+                tdstot = new String[tiedLkm];
                 break;
             }
             else {
@@ -91,8 +97,10 @@ public class Sanaindeksoija {
             if (mones == 1)
                 trie = new Hakupuu();
             boolean luku = lueSisaan(tdsto);
-            if (luku)
+            if (luku) {
+                tdstot[mones-1] = tdsto;
                 mones++;
+            }
             else
                 System.out.println("Tiedostoa "+tdsto+" ei löydy.");
             
