@@ -9,8 +9,8 @@ import java.io.*;
  * Luokka, joka toteuttaa Trie-hakupuun ja sen tarvitsemat toiminnot Sanaindeksoijaa varten
  * 
  * @author  Nina Bärlund
- * @version 0.1
- * @since   29.5.2012
+ * @version 1.0
+ * @since   8.6.2012
  */
 public class Hakupuu {
     
@@ -73,9 +73,7 @@ public class Hakupuu {
  * @param   rivinro     indeksi hakutaulukon soluun, johon rivi on tallennettu
  */    
     private void kasitteleRivi(String rivi, int tdstonro, int tdstonrivi, int rivinro) throws Exception {
-        String kelvot = "abcdefghijklmnopqrstuvwxyzåäö0123456789";              // hakupuuhun kelpaavat merkit
         Node vanhempi = this.juuri;                                             // lähdetään liikkeelle juuresta
-        int ind;
         boolean sananalku = true;                                               // merkitään seuraava löytyvä kelvollinen merkki sanan aloittavaksi
         
         for (int i = 0; i < rivi.length(); i++) {                               // käydään läpi kaikki rivin merkit
@@ -86,15 +84,15 @@ public class Hakupuu {
             if (!sananalku)                                                     // aloitetaan tallennus vain rivin ja sanojen alusta
                 continue;
             
-            if (kelvot.indexOf(rivi.toLowerCase().charAt(i)) < 0)               // merkki ei ole suomalaisen aakkoston kirjain tai numero
+            if (selvitaKelpo(rivi.toLowerCase().charAt(i)) < 0)                 // merkki ei ole suomalaisen aakkoston kirjain tai numero
                 continue;
                 
             sananalku = false;                                                  // merkitään seuraava merkki keskellä sanaa olevaksi
             for (int j = i; j < rivi.length(); j++) {                           // tallennetaan loppurivi hakupuuhun, käydään läpi rivi sanan 1. merkistä lähtien
                 char merkki = rivi.toLowerCase().charAt(j);                     // luetaan käsiteltävä merkki
-                if (kelvot.indexOf(merkki) < 0)                                 // merkki ei ole suomalaisen aakkoston kirjain tai numero
+                if (selvitaKelpo(merkki) < 0)                                   // merkki ei ole suomalaisen aakkoston kirjain tai numero
                     continue;
-                ind = selvitaInd((int)merkki);                                  // haetaan merkkiä vastaava lapsitaulukon indeksiarvo
+                int ind = selvitaInd((int)merkki);                              // haetaan merkkiä vastaava lapsitaulukon indeksiarvo
                 if (vanhempi.getLapsi(ind) == null)
                     vanhempi.setLapsi(ind, new Node(merkki));                   // luodaan uusi lapsisolmu ja tallennetaan se vanhemman taulukkoon
                 vanhempi = vanhempi.getLapsi(ind);                              // käsittelyyn merkkiä vastaava solmu lapsitaulukosta
@@ -102,6 +100,18 @@ public class Hakupuu {
             }
             vanhempi = this.juuri;                                              // palataan hakupuun alkuun seuraavan sanan alkua varten    
         }                                                                       // käsiteltävän rivin loppu
+    }
+    
+/**
+ * Metodi, joka selvittää annetun merkin kelvollisuuden eli onko merkki hakupuuhun tallennettava.
+ * 
+ * @param   merkki      selvitettävä merkki
+ * 
+ * @return  arvo        selvitettävän merkin indeksi merkkijonossa kelvot; jos pienempi kuin 0, ei merkkiä löytynyt kelvollisten merkkien joukosta
+ */        
+    private int selvitaKelpo(char merkki) {
+        String kelvot = "abcdefghijklmnopqrstuvwxyzåäö0123456789";              // hakupuuhun kelpaavat merkit
+        return kelvot.indexOf(merkki);
     }
     
 /**
@@ -121,6 +131,38 @@ public class Hakupuu {
         if (arvo == 246)                                                        // kirjain ö
             return 38;                                                          // sijoitetaan soluun 38
         return 36;                                                              // kirjain å sijoitetaan soluun 36
+    }
+
+/**
+ * Metodi, joka etsii annetun merkkijonon hakupuusta.
+ * 
+ * @param   jono        etsittävä merkkijono
+ * 
+ * @return  arvo        selvitettävän merkin indeksi lapset-taulukossa
+ */            
+    public Lista etsiJono(String jono) {
+        Node vanhempi = this.juuri;                                             // lähdetään liikkeelle juuresta
+        for (int i = 0; i < jono.length(); i++) {
+            char merkki = jono.toLowerCase().charAt(i);                         // luetaan käsiteltävä merkki
+            if (selvitaKelpo(merkki) < 0)                                       // merkki ei ole suomalaisen aakkoston kirjain tai numero
+                continue;
+            int ind = selvitaInd((int)merkki);                                  // haetaan merkkiä vastaava lapsitaulukon indeksiarvo
+            if (vanhempi.getLapsi(ind) == null)                                 // jos merkkiä ei löydy, ei haettua merkkijonoa löydy hakupuusta
+                return null;
+            vanhempi = vanhempi.getLapsi(ind);                                  // käsittelyyn merkkiä vastaava solmu lapsitaulukosta
+        }
+        return vanhempi.getLista();                                             // palautetaan haetun merkkijonon viimeisen merkin esiintymälista
+    }
+
+/**
+ * Metodi, joka antaa halutun tallennetun tekstirivin hakupuusta.
+ * 
+ * @param   ind         tekstirivin indeksi
+ * 
+ * @return  merkkijono  tekstirivi annetun indeksin solussa
+ */            
+    public String getRivi(int i) {
+        return rivit[i];
     }
     
 /**

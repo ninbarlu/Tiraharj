@@ -9,8 +9,8 @@ import Logiikka.Lista;
  * Luokka, joka toteuttaa Trie-hakupuun solmut Sanaindeksoijaa varten
  * 
  * @author  Nina Bärlund
- * @version 0.1
- * @since   4.6.2012
+ * @version 1.0
+ * @since   8.6.2012
  */
 public class Node {
     
@@ -86,5 +86,14 @@ public class Node {
  */        
     public char getMerkki() {
         return this.merkki;                                                     // palauttaa annetun solmun merkin
+    }
+    
+/**
+ * Metodi, joka palauttaa annetun solmun linkitetyn listan.
+ * 
+ * @return  lista       linkitetyn listan ensimmäinen solmu
+ */        
+    public Lista getLista() {
+        return this.ekaEsitys;                                                  // palauttaa annetun solmun linkitetyn listan ensimmäisen solmun
     }
 }

@@ -10,15 +10,15 @@ import java.io.*;
  * Sanaindeksoijan käynnistysalgoritmi
  * 
  * @author  Nina Bärlund
- * @version 0.1
- * @since   29.5.2012
+ * @version 1.0
+ * @since   8.6.2012
  */
 public class Sanaindeksoija {
 
     private static Scanner lukija = new Scanner(System.in);
     
     private static Hakupuu trie;                                                // Sanaindeksoijan hakupuu
-    private static String[] tdstot;                                             // sisältää sisäänluettujen tiedostojen nimet
+    private static String[] tdstot = {"JUnit"};                                 // sisältää sisäänluettujen tiedostojen nimet; oletusarvo testausta varten
     
     private static int mones;                                                   // käsittelyssä olevan tiedoston järjestysnumero
     private static int riveja;                                                  // tilasto: käsiteltyjen rivien lukumäärä
@@ -37,7 +37,7 @@ public class Sanaindeksoija {
             System.out.println("  - tehtyjä hakuja            "+hakuja+" kpl");
         }
         if (hakuja > 0)
-            System.out.println("  - saatuja osumia yhteensä   "+osumia+" kpl, k.a per haku     "+(1.0*((100*osumia)/hakuja)/100));
+            System.out.println("  - saatuja osumia yhteensä   "+osumia+" kpl, k.a per haku "+(1.0*((100*osumia)/hakuja)/100));
     }
     
 /**
@@ -83,6 +83,7 @@ public class Sanaindeksoija {
             return;
         }
         
+        // sisäänlukutiedostojen luku hakupuuhun
         mones = 1;
         riveja = 0;
         hakuja = 0;
@@ -110,8 +111,31 @@ public class Sanaindeksoija {
                 System.out.println("Tiedostoa "+vast+" ei löydy.");
         }
         
-        // tähän väliin hakutoiminnot
+        // hakutoiminnot
+        System.out.println("Siirrytään hakutoimintoon. Tyhjä päättää haun.");
+        while (true) {                                                          // kunnes haetaan tyhjää
+            System.out.println("Anna haettava merkkijono:");
+            String vast = lukija.nextLine().trim();
+            if (vast.isEmpty())
+                break;
+            hakuja++;
+            Lista lista = trie.etsiJono(vast);                                  // etsitään hakupuusta annetun merkkijonon viimeinen merkki
+            if (lista == null) {                                                // haettua merkkijonoa ei löytynyt
+                System.out.println("Merkkijonoa "+vast+" ei löytynyt hakupuusta.\n");
+                continue;
+            }
+            System.out.println();
+            int lask = 0;                                                       // osumalaskuri
+            while (lista != null) {
+                System.out.println(tdstot[lista.getTdsto()]+", rivi "+lista.getTdstonrivi()+": "+trie.getRivi(lista.getHakurivi()));
+                lask++;
+                lista = lista.getSeurLista();                                   // haetaan seuraava esitys
+            }
+            System.out.println("yhteensä "+lask+" osumaa\n");                   // merkkijonojen osumien lukumäärä
+            osumia = osumia + lask;
+        }
         
+        // tilaston tulostaminen
         tulostaTilasto();                                                       // tulostetaan tilastotiedot ohjelman päätteeksi
     }
 }

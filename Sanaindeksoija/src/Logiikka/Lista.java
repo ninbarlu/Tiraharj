@@ -6,8 +6,8 @@ package Logiikka;
  * Luokka, joka toteuttaa linkitetyn listan Trie-hakupuun esiintymien tallettamista varten
  * 
  * @author  Nina Bärlund
- * @version 0.1
- * @since   4.6.2012
+ * @version 1.0
+ * @since   8.6.2012
  */
 public class Lista {
     
@@ -38,5 +38,40 @@ public class Lista {
     public void setSeur(Lista seur) {
         this.seurLista = seur;                                                  // annettu solmu käsiteltävän solmun seuraajaksi
     }
-    
+
+/**
+ * Metodi, joka antaa annetun solmun tiedostonumeron.
+ * 
+ * @return  tdsto       tiedoston järjestysnumero
+ */        
+    public int getTdsto() {
+        return this.tdsto;
+    }
+
+/**
+ * Metodi, joka antaa annetun solmun tiedoston rivinumeron.
+ * 
+ * @return  tdstonrivi  tiedostonrivin järjestysnumero
+ */        
+    public int getTdstonrivi() {
+        return this.tdstonrivi;
+    }
+/**
+ * Metodi, joka antaa annetun solmun hakurivin järjestysnumeron.
+ * 
+ * @return  hakurivi    hakurivin järjestysnumero
+ */        
+    public int getHakurivi() {
+        return this.hakurivi;
+    }
+
+/**
+ * Metodi, joka antaa annetun solmun seuraajan.
+ * 
+ * @return  seurLista   solmusta seuraava solmu
+ */        
+    public Lista getSeurLista() {
+        return this.seurLista;
+    }
+
 }
