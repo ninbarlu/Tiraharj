@@ -9,8 +9,8 @@ import java.io.*;
  * Luokka, joka toteuttaa Trie-hakupuun ja sen tarvitsemat toiminnot Sanaindeksoijaa varten
  * 
  * @author  Nina Bärlund
- * @version 1.0
- * @since   8.6.2012
+ * @version 1.1
+ * @since   11.6.2012
  */
 public class Hakupuu {
     
@@ -39,9 +39,11 @@ public class Hakupuu {
         Scanner syote = new Scanner(tdstokahva);                                // sisäänluettava tiedosto
         while (syote.hasNextLine()) {                                           // kunnes tiedoston sisältö loppuu
             rivi = syote.nextLine().trim();
-            tallennaRivi(rivi);                                                 // rivin tallennus tekstirivitaulukkoon
-            rivilkm++;
-            kasitteleRivi(rivi, tdstonro, rivilkm, vapaa-1);                    // rivin käsittely eli tallennus hakupuuhun
+            if (!rivi.isEmpty()) {                                              // ei käsitellä tyhjiä rivejä
+                tallennaRivi(rivi);                                             // rivin tallennus tekstirivitaulukkoon
+                rivilkm++;
+                kasitteleRivi(rivi, tdstonro, rivilkm, vapaa-1);                // rivin käsittely eli tallennus hakupuuhun
+            }
         }
         return rivilkm;                                                         // palauttaa käsiteltyjen rivien lukumäärän; jos tiedosto on tyhjä, palauttaa 0:n
     }
@@ -72,7 +74,7 @@ public class Hakupuu {
  * @param   tdstonrivi  sisäänluettavan tiedoston käsiteltävän rivin järjestysnumero (1-n)
  * @param   rivinro     indeksi hakutaulukon soluun, johon rivi on tallennettu
  */    
-    private void kasitteleRivi(String rivi, int tdstonro, int tdstonrivi, int rivinro) throws Exception {
+    public void kasitteleRivi(String rivi, int tdstonro, int tdstonrivi, int rivinro) throws Exception { // aikatestausta varten public
         Node vanhempi = this.juuri;                                             // lähdetään liikkeelle juuresta
         boolean sananalku = true;                                               // merkitään seuraava löytyvä kelvollinen merkki sanan aloittavaksi
         
@@ -165,6 +167,14 @@ public class Hakupuu {
         return rivit[i];
     }
     
+/**
+ * Metodi, joka antaa hakupuun juuren.
+ * 
+ * @return  node    hakupuun juurisolmu
+ */            
+    public Node getJuuri() {
+        return this.juuri;
+    }
 /**
  * Hakupuun tulostuksen käynnistysmetodi.
  * 
