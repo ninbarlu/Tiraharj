@@ -6,18 +6,34 @@ import java.util.Scanner;
 import java.io.*;
 
 /**
- * Luokka, joka toteuttaa Trie-hakupuun ja sen tarvitsemat toiminnot Sanaindeksoijaa varten
+ * Luokka, joka toteuttaa Trie-hakupuun ja sen tarvitsemat toiminnot Sanaindeksoijaa varten. Hakupuuhun kelpuutetaan vain 
+ * suomalaiset aakkoset A-Ö ja numerot 0-9. Trie-puuhun tallennettavat sanat alkavat rivin alusta tai tyhjän merkin jälkeen
+ * ja päättyvät joko tyhjään merkkiin tai rivin loppuun.
  * 
  * @author  Nina Bärlund
  * @version 1.1
  * @since   11.6.2012
+ * 
  */
 public class Hakupuu {
     
+/**
+ * Trie-hakupuun juurisolmu
+ */
     private Node juuri;                                                         // hakupuun juurisolmu
+/**
+ * Trie-hakupuuhun luetut tekstirivit
+ */
     private String[] rivit;                                                     // hakupuuhun luetut tekstirivit
+/**
+ * seuraava vapaa tekstitaulukon solu
+ */
     private int vapaa;                                                          // seuraava vapaa tekstirivitaulukon paikka
     
+/**
+ * Hakupuu-luokan konstruktori.
+ * 
+ */
     public Hakupuu() {                                                          // hakupuun konstruktori
         this.juuri = new Node();
         this.rivit = new String[100];                                           // tekstirivitaulukon aloituskoko 100
@@ -31,6 +47,7 @@ public class Hakupuu {
  * @param   tdstonro    sisäänluettavan tiedoston järjestysnumero (0-n)
  * 
  * @return  rivilkm     sisäänlukutiedostosta luettujen rivien lukumäärä
+ * 
  */    
     public int lueTdsto(File tdstokahva, int tdstonro) throws Exception {
 
@@ -53,6 +70,7 @@ public class Hakupuu {
  * Metodi, joka tallentaa luetun rivin hakutaulukkoon.
  * 
  * @param   rivi        sisäänlukutiedostosta luettu rivi
+ * 
  */    
     private void tallennaRivi(String rivi) {
         String[] apu = {};
@@ -73,6 +91,11 @@ public class Hakupuu {
  * @param   tdstonro    sisäänluettavan tiedoston järjestysnumero (0-n)
  * @param   tdstonrivi  sisäänluettavan tiedoston käsiteltävän rivin järjestysnumero (1-n)
  * @param   rivinro     indeksi hakutaulukon soluun, johon rivi on tallennettu
+ * 
+ * @see     Logiikka.Node#getLapsi(int)
+ * @see     Logiikka.Node#setLapsi(int, Logiikka.Node)
+ * @see     Logiikka.Node#setRivi(int, int, int)
+ * 
  */    
     public void kasitteleRivi(String rivi, int tdstonro, int tdstonrivi, int rivinro) throws Exception { // aikatestausta varten public
         Node vanhempi = this.juuri;                                             // lähdetään liikkeelle juuresta
@@ -110,6 +133,7 @@ public class Hakupuu {
  * @param   merkki      selvitettävä merkki
  * 
  * @return  arvo        selvitettävän merkin indeksi merkkijonossa kelvot; jos pienempi kuin 0, ei merkkiä löytynyt kelvollisten merkkien joukosta
+ * 
  */        
     private int selvitaKelpo(char merkki) {
         String kelvot = "abcdefghijklmnopqrstuvwxyzåäö0123456789";              // hakupuuhun kelpaavat merkit
@@ -122,6 +146,7 @@ public class Hakupuu {
  * @param   arvo        selvitettävän merkin Unicode-arvo
  * 
  * @return  arvo        selvitettävän merkin indeksi lapset-taulukossa
+ * 
  */        
     private int selvitaInd(int arvo) {
         if (arvo < 60)                                                          // numeraalit
@@ -141,6 +166,10 @@ public class Hakupuu {
  * @param   jono        etsittävä merkkijono
  * 
  * @return  arvo        selvitettävän merkin indeksi lapset-taulukossa
+ * 
+ * @see     Logiikka.Node#getLapsi(int)
+ * @see     Logiikka.Node#getLista()
+ * 
  */            
     public Lista etsiJono(String jono) {
         Node vanhempi = this.juuri;                                             // lähdetään liikkeelle juuresta
@@ -159,9 +188,10 @@ public class Hakupuu {
 /**
  * Metodi, joka antaa halutun tallennetun tekstirivin hakupuusta.
  * 
- * @param   ind         tekstirivin indeksi
+ * @param   i           tekstirivin indeksi
  * 
  * @return  merkkijono  tekstirivi annetun indeksin solussa
+ * 
  */            
     public String getRivi(int i) {
         return rivit[i];
@@ -171,6 +201,7 @@ public class Hakupuu {
  * Metodi, joka antaa hakupuun juuren.
  * 
  * @return  node    hakupuun juurisolmu
+ * 
  */            
     public Node getJuuri() {
         return this.juuri;
@@ -179,6 +210,7 @@ public class Hakupuu {
  * Hakupuun tulostuksen käynnistysmetodi.
  * 
  * @return  tulostettava hakupuu merkkijonomuodossa
+ * 
  */        
     public String toString() {
         return this.toStringHelp(this.juuri, "");
@@ -191,6 +223,10 @@ public class Hakupuu {
  * @param   sisennys    solmun tulostusasettelu
  * 
  * @return  str         tulostettava hakupuu merkkijonomuodossa
+ * 
+ * @see     Logiikka.Node#getMerkki()
+ * @see     Logiikka.Node#getLapsi(int)
+ * 
  */        
     private String toStringHelp(Node solmu, String sisennys) {                  // sovellettu Esa Junttilan tulostusmetodista http://www.cs.helsinki.fi/u/ejunttil/opetus/tiraharjoitus/treeprint.txt
 	if (solmu == null) return "";

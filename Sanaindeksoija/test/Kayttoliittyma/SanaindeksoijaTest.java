@@ -1,6 +1,10 @@
 // Tietorakenteiden harjoitustyö, Nina Bärlund
-package Logiikka;
+package Kayttoliittyma;
 
+import Kayttoliittyma.Sanaindeksoija;
+import Logiikka.Hakupuu;
+import Logiikka.Lista;
+import Logiikka.Node;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.io.*;

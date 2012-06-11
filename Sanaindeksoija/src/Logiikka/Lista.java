@@ -3,17 +3,30 @@ package Logiikka;
 // Tietorakenteiden harjoitustyö, Nina Bärlund
 
 /**
- * Luokka, joka toteuttaa linkitetyn listan Trie-hakupuun esiintymien tallettamista varten
+ * Luokka, joka toteuttaa linkitetyn listan Trie-hakupuun esiintymien tallettamista varten.
  * 
  * @author  Nina Bärlund
  * @version 1.0
  * @since   8.6.2012
+ * 
  */
 public class Lista {
     
+/**
+ * esiintymän sisäänlukutiedoston järjestysnumero 0-n
+ */
     private int tdsto;                                                          // esiintymän sisältävän sisäänlukutiedoston järjestysnumero (0-n)
+/**
+ * esiintymän sisäänlukutiedoston rivinumero 1-n
+ */
     private int tdstonrivi;                                                     // esiintymän sisältävän tiedostonrivin järjestysnumero (1-n)
+/**
+ * esiintymän järjestysnumero hakupuun rivitaulukossa 0-n
+ */
     private int hakurivi;                                                       // esiintymän sisältävä hakupuun tekstitaulukon rivinumero (0-n)
+/**
+ * solmun seuraaja
+ */
     private Lista seurLista;                                                    // listan solmua seuraava listan solmu
     
 /**
@@ -22,6 +35,7 @@ public class Lista {
  * @param   tdsto       sisäänlukutiedoston järjestysnumero (0-n)
  * @param   tdstonrivi  tiedostonrivin järjestysnumero (1-n)
  * @param   hakurivi    rivin järjestysnumero hakupuuhun luettujen rivien joukossa (0-n)
+ * 
  */        
     public Lista(int tdsto, int tdstonrivi, int hakurivi) {
         this.tdsto = tdsto;
@@ -34,6 +48,7 @@ public class Lista {
  * Metodi, joka asettaa parametrina annetun solmun linkitetyn listan viimeiseksi.
  * 
  * @param   seur        uusi solmu
+ * 
  */        
     public void setSeur(Lista seur) {
         this.seurLista = seur;                                                  // annettu solmu käsiteltävän solmun seuraajaksi
@@ -43,6 +58,7 @@ public class Lista {
  * Metodi, joka antaa annetun solmun tiedostonumeron.
  * 
  * @return  tdsto       tiedoston järjestysnumero
+ * 
  */        
     public int getTdsto() {
         return this.tdsto;
@@ -52,6 +68,7 @@ public class Lista {
  * Metodi, joka antaa annetun solmun tiedoston rivinumeron.
  * 
  * @return  tdstonrivi  tiedostonrivin järjestysnumero
+ * 
  */        
     public int getTdstonrivi() {
         return this.tdstonrivi;
@@ -60,6 +77,7 @@ public class Lista {
  * Metodi, joka antaa annetun solmun hakurivin järjestysnumeron.
  * 
  * @return  hakurivi    hakurivin järjestysnumero
+ * 
  */        
     public int getHakurivi() {
         return this.hakurivi;
@@ -69,6 +87,7 @@ public class Lista {
  * Metodi, joka antaa annetun solmun seuraajan.
  * 
  * @return  seurLista   solmusta seuraava solmu
+ * 
  */        
     public Lista getSeurLista() {
         return this.seurLista;
