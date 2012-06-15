@@ -40,7 +40,7 @@ public class Node {
         this.merkki = merkki;
         this.ekaEsitys = null;
         this.vikaEsitys = null;
-        this.lapset = new Node[39];                                             // hyväksyttäviä merkkejä 39 kpl
+        this.lapset = new Node[40];                                             // hyväksyttäviä merkkejä 40 kpl
     }
     
 /**

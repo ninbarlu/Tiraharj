@@ -66,9 +66,10 @@ public class Sanaindeksoija {
             System.out.println("  - sisäänluettuja rivejä     "+riveja+" kpl, k.a per tiedosto "+(1.0*((100*riveja)/(mones-1))/100));
             System.out.println("  - tehtyjä hakuja            "+hakuja+" kpl");
         }
-        if (hakuja > 0)
+        if (hakuja > 0) {
             System.out.println("  - tehtyjä alahakuja         "+alahakuja+" kpl, k.a per haku "+(1.0*((100*alahakuja)/hakuja)/100));
             System.out.println("  - saatuja osumia yhteensä   "+osumia+" kpl, k.a per haku "+(1.0*((100*osumia)/hakuja)/100));
+        }
     }
     
 /**

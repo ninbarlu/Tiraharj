@@ -7,8 +7,8 @@ import java.io.*;
 
 /**
  * Luokka, joka toteuttaa Trie-hakupuun ja sen tarvitsemat toiminnot Sanaindeksoijaa varten. Hakupuuhun kelpuutetaan vain 
- * suomalaiset aakkoset A-Ö ja numerot 0-9. Trie-puuhun tallennettavat sanat alkavat rivin alusta tai tyhjän merkin jälkeen
- * ja päättyvät joko tyhjään merkkiin tai rivin loppuun.
+ * suomalaiset aakkoset A-Ö ja numerot 0-9 sekä sanojen välissä olevat tyhjät merkit. Trie-puuhun tallennettavat sanat 
+ * alkavat rivin alusta tai tyhjän merkin jälkeen ja päättyvät joko tyhjään merkkiin tai rivin loppuun.
  * 
  * @author  Nina Bärlund
  * @version 1.1
@@ -36,7 +36,7 @@ public class Hakupuu {
  */
     public Hakupuu() {                                                          // hakupuun konstruktori
         this.juuri = new Node();
-        this.rivit = new String[100];                                           // tekstirivitaulukon aloituskoko 100
+        this.rivit = new String[1000];                                          // tekstirivitaulukon aloituskoko 1000
         this.vapaa = 0;
     }
     
@@ -136,7 +136,7 @@ public class Hakupuu {
  * 
  */        
     private int selvitaKelpo(char merkki) {
-        String kelvot = "abcdefghijklmnopqrstuvwxyzåäö0123456789";              // hakupuuhun kelpaavat merkit
+        String kelvot = "abcdefghijklmnopqrstuvwxyzåäö0123456789 ";             // hakupuuhun kelpaavat merkit
         return kelvot.indexOf(merkki);
     }
     
@@ -149,6 +149,8 @@ public class Hakupuu {
  * 
  */        
     private int selvitaInd(int arvo) {
+        if (arvo == 32)                                                         // blankko
+            return 39;                                                          // sijoitetaan taulukon soluun 39
         if (arvo < 60)                                                          // numeraalit
             return arvo-48;                                                     // sijoitetaan taulukon soluihin 0-9
         if (arvo < 130)                                                         // kirjaimet a-z
@@ -232,8 +234,8 @@ public class Hakupuu {
 	if (solmu == null) return "";
 	else {
 		String str = "";
-		str += "\n" + sisennys + "--->" + solmu.getMerkki();
-		for (int i = 0; i < 39; i++) {
+		str += "\n" + sisennys + "->" + solmu.getMerkki();
+		for (int i = 0; i < 40; i++) {
 			str += toStringHelp(solmu.getLapsi(i), sisennys + "     |");
 		}
 		str += "\n" + sisennys;
