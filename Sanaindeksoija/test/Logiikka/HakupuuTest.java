@@ -117,6 +117,25 @@ public class HakupuuTest {
             }
             puu.kasitteleRivi(rivi, 1, i + 1, i);
         }
+
+        loppu = System.currentTimeMillis();
+        System.out.println("lisäys 20000 rivillä: " + (loppu - alku) + "ms");
+        alku = System.currentTimeMillis();
+        
+        Lista tulos = puu.etsiJono("199999");
+        assertNotNull(tulos);
+        loppu = System.currentTimeMillis();
+        System.out.println("haku 20000 rivillä: " + (loppu - alku) + "ms");        
+        
+        puu = new Hakupuu();
+        alku = System.currentTimeMillis();
+        for (int i = 0; i < 20000; i++) {
+            String rivi = "";
+            for (int j = 0; j < 10; j++) {
+                rivi = rivi + " " + i + j;
+            }
+            puu.kasitteleRivi(rivi, 1, i + 1, i);
+        }
         for (int i = 0; i < 20000; i++) {
             String rivi = "";
             for (int j = 0; j < 10; j++) {
@@ -135,10 +154,11 @@ public class HakupuuTest {
         System.out.println("lisäys 60000 rivillä: " + (loppu - alku) + "ms");
         alku = System.currentTimeMillis();
         
-        Lista tulos = puu.etsiJono("199999");
+        tulos = puu.etsiJono("199999");
         assertNotNull(tulos);
         loppu = System.currentTimeMillis();
         System.out.println("haku 60000 rivillä: " + (loppu - alku) + "ms");
+
 
 
     }
